@@ -1,0 +1,21 @@
+# Disable directory browsing 
+Options +FollowSymLinks
+
+RewriteBase /
+
+# turn on the re-write engine - mod_rewrite
+RewriteEngine On
+
+# if trying to access dot files
+RewriteCond %{REQUEST_URI} ^\.(.*)$ [OR]
+# if trying to access the private directory
+RewriteCond %{REQUEST_URI} ^(.*)/private(.*)$
+# rewrite to a 404 error
+RewriteRule ^(.*)$ index.php/404 [R=404,L]
+
+# if request doesn't exist as a file
+RewriteCond %{REQUEST_FILENAME} !-f
+# if request doesn't exist as a directory
+RewriteCond %{REQUEST_FILENAME} !-d
+# rewrite to parameter of index.php
+RewriteRule ^(.*)$ index.php/$1 [L]
